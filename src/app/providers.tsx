@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "sonner";
 
+import { useAuthInit } from "@/hooks/use-auth-init";
+
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
     () =>
@@ -17,6 +19,10 @@ export function Providers({ children }: { children: ReactNode }) {
         },
       })
   );
+
+  // Hydrate the auth store on mount: try to fetch /fetchProfile;
+  // success ⇒ user is logged in (cookie valid), failure ⇒ logged out.
+  useAuthInit();
 
   return (
     <QueryClientProvider client={queryClient}>
