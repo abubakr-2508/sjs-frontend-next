@@ -11,6 +11,8 @@ export interface User {
   role: UserRole;
   profileImage?: string;
   companyName?: string;
+  /** Current subscription plan ID (backend's User.plan field). */
+  plan?: string;
 }
 
 export interface AuthTokens {

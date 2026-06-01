@@ -27,11 +27,15 @@ export function useAuthInit() {
       try {
         const profile = await fetchProfile();
 
-        setUser(
-          profile.user ||
-            profile.profile ||
-            profile
-        );
+        // Backend wraps the user object as { data: <user> } in /fetchProfile.
+        // Fall back to other common shapes just in case.
+        const userData =
+          profile?.data ||
+          profile?.user ||
+          profile?.profile ||
+          profile;
+
+        setUser(userData);
       } catch {
         setUser(null);
       } finally {
