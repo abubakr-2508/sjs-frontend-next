@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import LogoutButton from "@/components/shared/auth/logout-button";
+
 const navItems = [
   {
     label: "Dashboard",
@@ -77,6 +79,8 @@ export default function EmployerLayout({
             );
           })}
         </nav>
+
+        <LogoutButton />
       </aside>
 
       <main className="flex-1 overflow-auto">{children}</main>

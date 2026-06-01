@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { useNotificationCount } from "@/modules/candidate/hooks/use-notifications";
+import LogoutButton from "@/components/shared/auth/logout-button";
 
 const navItems = [
   {
@@ -88,6 +89,8 @@ export default function CandidateLayout({
             );
           })}
         </nav>
+
+        <LogoutButton />
       </aside>
 
       <main className="flex-1 overflow-auto">{children}</main>

@@ -37,3 +37,11 @@ export async function fetchProfile() {
 
   return response.data;
 }
+
+export async function logout() {
+  const response = await apiClient.post(
+    "/logout"
+  );
+
+  return response.data;
+}
