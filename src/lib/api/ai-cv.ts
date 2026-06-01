@@ -1,12 +1,31 @@
+/**
+ * AI CV API — Provider-Agnostic Contract
+ * --------------------------------------
+ * These functions talk to OUR backend, which internally calls whichever
+ * LLM provider it chooses (currently Cohere; future: Anthropic, OpenAI,
+ * others). The frontend does NOT know or care which provider is used.
+ *
+ * Request/response shapes are defined in `@/types/ai-cv`. Any backend
+ * provider swap MUST preserve those shapes. See that file for the
+ * contract rules.
+ */
+
 import apiClient from "./client";
 
+import type {
+  CvSummaryRequest,
+  CvSummaryResponse,
+  CvGenerateRequest,
+  CvGenerateResponse,
+  CvPreviewRequest,
+  CvSaveRequest,
+} from "@/types/ai-cv";
+
 export async function summarizeCv(
-  payload: {
-    text: string;
-  }
-) {
+  payload: CvSummaryRequest
+): Promise<CvSummaryResponse> {
   const response =
-    await apiClient.post(
+    await apiClient.post<CvSummaryResponse>(
       "/summerize-cv",
       payload
     );
@@ -15,12 +34,10 @@ export async function summarizeCv(
 }
 
 export async function generateCv(
-  payload: {
-    text: string;
-  }
-) {
+  payload: CvGenerateRequest
+): Promise<CvGenerateResponse> {
   const response =
-    await apiClient.post(
+    await apiClient.post<CvGenerateResponse>(
       "/generate-cv",
       payload
     );
@@ -29,16 +46,10 @@ export async function generateCv(
 }
 
 export async function previewCv(
-  payload: {
-    template:
-      | "professional"
-      | "modern"
-      | "minimal";
-    cv: unknown;
-  }
-) {
+  payload: CvPreviewRequest
+): Promise<string> {
   const response =
-    await apiClient.post(
+    await apiClient.post<string>(
       "/cv/preview",
       payload,
       {
@@ -50,14 +61,8 @@ export async function previewCv(
 }
 
 export async function saveCv(
-  payload: {
-    template:
-      | "professional"
-      | "modern"
-      | "minimal";
-    cv: unknown;
-  }
-) {
+  payload: CvSaveRequest
+): Promise<unknown> {
   const response =
     await apiClient.post(
       "/cv/save",

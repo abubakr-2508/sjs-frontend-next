@@ -1,34 +1,40 @@
 import { create } from "zustand";
 
-type TemplateType =
-  | "professional"
-  | "modern"
-  | "minimal"
-  | null;
+import type {
+  CvSummaryResponse,
+  CvGenerateResponse,
+  CvTemplate,
+} from "@/types/ai-cv";
 
-interface SummaryData {
-  summary: string;
-  name: string;
-  jobTitle: string;
-  location: string;
-  mobile: string;
-  email: string;
-}
-
+/**
+ * AI CV builder state.
+ *
+ * Tracks the user's inputs (manual + voice + desired job title), the
+ * LLM-produced summary, the fully generated CV, and the selected
+ * template. All types reference the provider-agnostic contract in
+ * `@/types/ai-cv` — see that file for why the frontend stays insulated
+ * from the backend's LLM provider choice.
+ */
 interface AiCvState {
   manualInput: string;
   voiceInput: string;
   extraJobTitle: string;
-  summaryData: SummaryData | null;
-  generatedCv: unknown;
-  selectedTemplate: TemplateType;
+  summaryData: CvSummaryResponse | null;
+  generatedCv: CvGenerateResponse | null;
+  selectedTemplate: CvTemplate | null;
 
   setManualInput: (value: string) => void;
   setVoiceInput: (value: string) => void;
   setExtraJobTitle: (value: string) => void;
-  setSummaryData: (value: SummaryData) => void;
-  setGeneratedCv: (value: unknown) => void;
-  setSelectedTemplate: (value: TemplateType) => void;
+  setSummaryData: (
+    value: CvSummaryResponse
+  ) => void;
+  setGeneratedCv: (
+    value: CvGenerateResponse
+  ) => void;
+  setSelectedTemplate: (
+    value: CvTemplate | null
+  ) => void;
   resetAiCv: () => void;
 }
 

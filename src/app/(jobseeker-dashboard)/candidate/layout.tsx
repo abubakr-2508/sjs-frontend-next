@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useNotificationCount } from "@/modules/candidate/hooks/use-notifications";
+
 const navItems = [
   {
     label: "Dashboard",
@@ -53,9 +55,8 @@ export default function CandidateLayout({
 }) {
   const pathname = usePathname();
 
-  // TODO (Step 8): port useNotificationCount hook from Vite project
-  // and wire the badge below to its `count` value.
-  const count = 0;
+  const { data } = useNotificationCount();
+  const count = data?.count || 0;
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
