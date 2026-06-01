@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -88,9 +89,7 @@ function LoginForm() {
         "[login] requestLoginOtp failed:",
         err
       );
-      alert(
-        "Invalid credentials or failed to send OTP"
-      );
+      toast.error("Invalid credentials or failed to send OTP");
     } finally {
       setLoading(false);
     }
@@ -137,7 +136,7 @@ function LoginForm() {
         "[login] verifyOtp/fetchProfile failed:",
         err
       );
-      alert("Invalid OTP");
+      toast.error("Invalid OTP");
     } finally {
       setLoading(false);
     }

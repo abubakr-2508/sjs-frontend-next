@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -55,14 +56,10 @@ export default function EmployerTestimonialsPage() {
       setRating("5");
       setTag("general");
 
-      alert(
-        "Testimonial added successfully"
-      );
+      toast.success("Testimonial added successfully");
     } catch (error) {
       console.error(error);
-      alert(
-        "Failed to add testimonial"
-      );
+      toast.error("Failed to add testimonial");
     }
   }
 
@@ -81,14 +78,10 @@ export default function EmployerTestimonialsPage() {
         testimonialId
       );
 
-      alert(
-        "Deleted successfully"
-      );
+      toast.success("Deleted successfully");
     } catch (error) {
       console.error(error);
-      alert(
-        "Delete failed"
-      );
+      toast.error("Delete failed");
     }
   }
 

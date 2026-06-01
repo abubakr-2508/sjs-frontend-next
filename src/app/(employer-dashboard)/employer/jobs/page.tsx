@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   useEmployerJobs,
@@ -47,13 +48,11 @@ export default function EmployerJobsPage() {
 
       await refetch();
 
-      alert(
+      toast.success(
         `Job ${status} successfully`
       );
     } catch {
-      alert(
-        "Failed to update job"
-      );
+      toast.error("Failed to update job");
     }
   }
 

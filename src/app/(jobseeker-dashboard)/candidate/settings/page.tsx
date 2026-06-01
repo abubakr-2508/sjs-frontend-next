@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 
@@ -103,13 +104,9 @@ function SettingsForm({
         },
       });
 
-      alert(
-        "Settings updated successfully"
-      );
+      toast.success("Settings updated successfully");
     } catch {
-      alert(
-        "Failed to update settings"
-      );
+      toast.error("Failed to update settings");
     }
   }
 

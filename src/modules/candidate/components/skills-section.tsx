@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,7 +60,7 @@ export default function SkillsSection() {
 
   async function handleAddSkill() {
     if (!selectedSkillId) {
-      alert("Select a skill");
+      toast.error("Select a skill");
       return;
     }
 
@@ -76,13 +77,9 @@ export default function SkillsSection() {
 
       await refetch();
 
-      alert(
-        "Skill added successfully"
-      );
+      toast.success("Skill added successfully");
     } catch {
-      alert(
-        "Failed to add skill"
-      );
+      toast.error("Failed to add skill");
     }
   }
 
@@ -107,14 +104,12 @@ export default function SkillsSection() {
           )
           ?.join(", ");
 
-      alert(
+      toast.error(
         suggestions ||
           "No suggestions"
       );
     } catch {
-      alert(
-        "Suggestion failed"
-      );
+      toast.error("Suggestion failed");
     }
   }
 

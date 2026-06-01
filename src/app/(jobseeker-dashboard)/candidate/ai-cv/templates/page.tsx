@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 
@@ -83,17 +84,13 @@ export default function AiCvTemplatesPage() {
         template
       );
     } catch {
-      alert(
-        "Preview failed"
-      );
+      toast.error("Preview failed");
     }
   }
 
   async function handleSave() {
     if (!selectedTemplate) {
-      alert(
-        "Select a template first"
-      );
+      toast.error("Select a template first");
       return;
     }
 
@@ -106,9 +103,7 @@ export default function AiCvTemplatesPage() {
         cv: generatedCv,
       });
 
-      alert(
-        "Resume saved successfully"
-      );
+      toast.success("Resume saved successfully");
 
       resetAiCv();
 
@@ -116,9 +111,7 @@ export default function AiCvTemplatesPage() {
         "/candidate/profile"
       );
     } catch {
-      alert(
-        "Save failed"
-      );
+      toast.error("Save failed");
     }
   }
 

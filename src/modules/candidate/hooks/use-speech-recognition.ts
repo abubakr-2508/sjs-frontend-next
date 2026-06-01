@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 
 declare global {
   interface Window {
@@ -20,9 +21,7 @@ export function useSpeechRecognition() {
       window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert(
-        "Speech recognition not supported in this browser"
-      );
+      toast.error("Speech recognition not supported in this browser");
       return;
     }
 
@@ -54,9 +53,7 @@ export function useSpeechRecognition() {
     recognition.onerror = () => {
       setIsListening(false);
 
-      alert(
-        "Microphone access failed"
-      );
+      toast.error("Microphone access failed");
     };
 
     recognition.start();

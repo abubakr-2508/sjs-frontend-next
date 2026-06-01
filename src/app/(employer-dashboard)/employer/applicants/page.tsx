@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   useEmployerJobs,
@@ -55,14 +56,12 @@ export default function EmployerApplicantsPage() {
 
       await refetch();
 
-      alert(
+      toast.success(
         `Candidate marked ${status}`
       );
     } catch (error) {
       console.error(error);
-      alert(
-        "Status update failed"
-      );
+      toast.error("Status update failed");
     }
   }
 
@@ -70,9 +69,7 @@ export default function EmployerApplicantsPage() {
     userId?: string
   ) {
     if (!userId) {
-      alert(
-        "Resume unavailable"
-      );
+      toast.error("Resume unavailable");
       return;
     }
 
@@ -116,9 +113,7 @@ export default function EmployerApplicantsPage() {
     } catch (error) {
       console.error(error);
 
-      alert(
-        "Resume download failed"
-      );
+      toast.error("Resume download failed");
     }
   }
 

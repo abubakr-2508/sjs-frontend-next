@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   useJobTitles,
@@ -112,9 +113,7 @@ export default function EmployerPostJobPage() {
   async function handleSubmit() {
     try {
       if (!user?._id) {
-        alert(
-          "Please log in to post a job."
-        );
+        toast.error("Please log in to post a job.");
         return;
       }
 
@@ -199,14 +198,10 @@ export default function EmployerPostJobPage() {
         payload
       );
 
-      alert(
-        "Job created successfully"
-      );
+      toast.success("Job created successfully");
     } catch (err) {
       console.error(err);
-      alert(
-        "Job creation failed"
-      );
+      toast.error("Job creation failed");
     }
   }
 

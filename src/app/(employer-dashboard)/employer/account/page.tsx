@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   useEmployerProfile,
@@ -92,9 +93,9 @@ export default function EmployerAccountPage() {
         }
       );
 
-      alert("Updated successfully");
+      toast.success("Updated successfully");
     } catch {
-      alert("Update failed");
+      toast.error("Update failed");
     }
   }
 
@@ -108,13 +109,13 @@ export default function EmployerAccountPage() {
         }
       );
 
-      alert("Password changed");
+      toast.error("Password changed");
 
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
     } catch {
-      alert("Password update failed");
+      toast.error("Password update failed");
     }
   }
 

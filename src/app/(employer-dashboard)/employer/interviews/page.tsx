@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   useEmployerInterviews,
@@ -50,10 +51,10 @@ export default function EmployerInterviewsPage() {
         },
       });
 
-      alert("Interview rescheduled");
+      toast.success("Interview rescheduled");
     } catch (error) {
       console.error(error);
-      alert("Reschedule failed");
+      toast.error("Reschedule failed");
     }
   }
 
@@ -71,10 +72,10 @@ export default function EmployerInterviewsPage() {
         selectedInterviewId
       );
 
-      alert("Interview cancelled");
+      toast.success("Interview cancelled");
     } catch (error) {
       console.error(error);
-      alert("Cancel failed");
+      toast.error("Cancel failed");
     }
   }
 

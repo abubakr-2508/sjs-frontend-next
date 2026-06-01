@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -71,9 +72,7 @@ mobile:${summaryData.mobile}
         "/candidate/ai-cv/templates"
       );
     } catch {
-      alert(
-        "Failed to generate CV"
-      );
+      toast.error("Failed to generate CV");
     }
   }
 

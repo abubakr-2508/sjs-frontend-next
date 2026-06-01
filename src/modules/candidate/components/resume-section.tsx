@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { toast } from "sonner";
 
 import {
   Button,
@@ -40,15 +41,11 @@ export default function ResumeSection({
         file
       );
 
-      alert(
-        "Resume uploaded successfully"
-      );
+      toast.success("Resume uploaded successfully");
 
       window.location.reload();
     } catch {
-      alert(
-        "Resume upload failed"
-      );
+      toast.error("Resume upload failed");
     }
   }
 
@@ -56,15 +53,11 @@ export default function ResumeSection({
     try {
       await deleteMutation.mutateAsync();
 
-      alert(
-        "Resume deleted successfully"
-      );
+      toast.success("Resume deleted successfully");
 
       window.location.reload();
     } catch {
-      alert(
-        "Failed to delete resume"
-      );
+      toast.error("Failed to delete resume");
     }
   }
 

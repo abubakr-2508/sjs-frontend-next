@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -114,9 +115,7 @@ ${experienceText}
         "/candidate/ai-cv/review"
       );
     } catch {
-      alert(
-        "Failed to generate summary"
-      );
+      toast.error("Failed to generate summary");
     }
   }
 

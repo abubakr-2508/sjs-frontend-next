@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -115,13 +116,9 @@ function ProfileBasicsForm({
         },
       });
 
-      alert(
-        "Profile updated successfully"
-      );
+      toast.success("Profile updated successfully");
     } catch {
-      alert(
-        "Failed to update profile"
-      );
+      toast.error("Failed to update profile");
     }
   }
 

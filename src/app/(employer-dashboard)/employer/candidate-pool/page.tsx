@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -53,9 +54,7 @@ export default function EmployerCandidatePoolPage() {
     candidateId: string
   ) {
     if (!selectedJobId) {
-      alert(
-        "Select a job first"
-      );
+      toast.error("Select a job first");
       return;
     }
 
@@ -69,16 +68,14 @@ export default function EmployerCandidatePoolPage() {
           }
         );
 
-      alert(
+      toast.success(
         result.message ||
           "Invite sent"
       );
     } catch (error) {
       console.error(error);
 
-      alert(
-        "Invite failed"
-      );
+      toast.error("Invite failed");
     }
   }
 
@@ -119,9 +116,7 @@ export default function EmployerCandidatePoolPage() {
     } catch (error) {
       console.error(error);
 
-      alert(
-        "Resume download failed"
-      );
+      toast.error("Resume download failed");
     }
   }
 

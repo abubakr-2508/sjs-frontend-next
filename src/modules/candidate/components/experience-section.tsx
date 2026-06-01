@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,13 +77,11 @@ export default function ExperienceSection({
           form.description,
       });
 
-      alert("Experience added");
+      toast.success("Experience added");
 
       window.location.reload();
     } catch {
-      alert(
-        "Failed to add experience"
-      );
+      toast.error("Failed to add experience");
     }
   }
 

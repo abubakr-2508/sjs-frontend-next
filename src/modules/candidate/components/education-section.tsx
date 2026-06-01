@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,13 +62,11 @@ export default function EducationSection({
           form.currentlyPursuing,
       });
 
-      alert("Education added");
+      toast.success("Education added");
 
       window.location.reload();
     } catch {
-      alert(
-        "Failed to add education"
-      );
+      toast.error("Failed to add education");
     }
   }
 

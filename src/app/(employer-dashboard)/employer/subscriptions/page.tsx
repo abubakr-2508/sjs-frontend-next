@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 import {
   useEmployerPlans,
@@ -39,15 +40,11 @@ export default function EmployerSubscriptionsPage() {
     try {
       await cancelMutation.mutateAsync();
 
-      alert(
-        "Plan cancelled successfully"
-      );
+      toast.success("Plan cancelled successfully");
     } catch (error) {
       console.error(error);
 
-      alert(
-        "Failed to cancel plan"
-      );
+      toast.error("Failed to cancel plan");
     }
   }
 
@@ -60,15 +57,13 @@ export default function EmployerSubscriptionsPage() {
           plan
         );
 
-      alert(
+      toast.success(
         result.message
       );
     } catch (error) {
       console.error(error);
 
-      alert(
-        "Payment integration unavailable"
-      );
+      toast.error("Payment integration unavailable");
     }
   }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   useEmployerProfile,
@@ -173,14 +174,10 @@ function EmployerProfileForm({
         form
       );
 
-      alert(
-        "Profile updated successfully"
-      );
+      toast.success("Profile updated successfully");
     } catch (error) {
       console.error(error);
-      alert(
-        "Profile update failed"
-      );
+      toast.error("Profile update failed");
     }
   }
 
@@ -200,9 +197,7 @@ function EmployerProfileForm({
   }
 
   function handleLogoUpload() {
-    alert(
-      "Logo upload endpoint not yet available"
-    );
+    toast.info("Logo upload endpoint not yet available");
   }
 
   return (

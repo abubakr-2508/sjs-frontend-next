@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 import {
   MapPin,
   Briefcase,
@@ -75,11 +76,9 @@ export default function JobDetailsPage() {
 
     try {
       await applyMutation.mutateAsync(id);
-      alert("Successfully Applied!");
+      toast.error("Successfully Applied!");
     } catch {
-      alert(
-        "Application failed or already applied."
-      );
+      toast.error("Application failed or already applied.");
     }
   }
 
