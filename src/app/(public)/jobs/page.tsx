@@ -32,7 +32,7 @@ export default function PublicJobsPage() {
           )}
 
           {!isLoading &&
-            data?.jobs?.map((job) => (
+            data?.jobs?.map((job: any) => (
               <JobCard key={job._id} job={job} />
             ))}
 

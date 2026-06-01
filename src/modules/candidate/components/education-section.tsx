@@ -80,7 +80,7 @@ export default function EducationSection({
       {/* Existing */}
       {education.length > 0 && (
         <div className="space-y-4">
-          {education.map((item) => (
+          {education.map((item: any) => (
             <div
               key={item._id}
               className="border rounded-xl p-4"

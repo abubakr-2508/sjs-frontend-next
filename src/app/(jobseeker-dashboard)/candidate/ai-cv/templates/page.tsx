@@ -56,6 +56,8 @@ export default function AiCvTemplatesPage() {
       | "modern"
       | "minimal"
   ) {
+    if (!generatedCv) return;
+
     try {
       const html =
         await previewMutation.mutateAsync({
@@ -94,6 +96,8 @@ export default function AiCvTemplatesPage() {
       );
       return;
     }
+
+    if (!generatedCv) return;
 
     try {
       await saveMutation.mutateAsync({

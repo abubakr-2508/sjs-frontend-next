@@ -48,7 +48,7 @@ export default function AppliedJobsPage() {
         </p>
       </div>
 
-      {jobs.map((job) => (
+      {jobs.map((job: any) => (
         <AppliedJobCard
           key={job._id}
           job={job}

@@ -60,7 +60,7 @@ export function useEmployerJobs() {
 }
 
 export function useEmployerJobDetails(
-  jobId: string
+  jobId: string | undefined
 ) {
   return useQuery({
     queryKey: [
@@ -68,7 +68,7 @@ export function useEmployerJobDetails(
       jobId,
     ],
     queryFn: () =>
-      fetchEmployerJobDetails(jobId),
+      fetchEmployerJobDetails(jobId as string),
     enabled: !!jobId,
   });
 }
@@ -169,7 +169,7 @@ export function useCreateEmployerJob() {
 /* APPLICANTS */
 
 export function useJobApplicants(
-  jobId: string
+  jobId: string | undefined
 ) {
   return useQuery({
     queryKey: [
@@ -177,7 +177,7 @@ export function useJobApplicants(
       jobId,
     ],
     queryFn: () =>
-      fetchJobApplicants(jobId),
+      fetchJobApplicants(jobId as string),
     enabled: !!jobId,
   });
 }

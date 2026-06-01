@@ -41,7 +41,7 @@ export default function NotificationsPage() {
       </h1>
 
       {notifications.map(
-        (notification) => (
+        (notification: any) => (
           <div
             key={notification._id}
             className="bg-white border rounded-2xl p-6"

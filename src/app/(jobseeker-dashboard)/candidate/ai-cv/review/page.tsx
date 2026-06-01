@@ -33,13 +33,16 @@ export default function AiCvReviewPage() {
     key: string,
     value: string
   ) {
+    if (!summaryData) return;
     setSummaryData({
       ...summaryData,
       [key]: value,
-    });
+    } as typeof summaryData);
   }
 
   async function handleGenerateCv() {
+    if (!summaryData) return;
+
     try {
       const payload = `
 ${summaryData.summary}
@@ -57,7 +60,12 @@ mobile:${summaryData.mobile}
           }
         );
 
-      setGeneratedCv(result.cv);
+      setGeneratedCv(
+        result.cv as Record<
+          string,
+          unknown
+        >
+      );
 
       router.push(
         "/candidate/ai-cv/templates"

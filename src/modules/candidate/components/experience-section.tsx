@@ -95,7 +95,7 @@ export default function ExperienceSection({
       {/* Existing */}
       {experience.length > 0 && (
         <div className="space-y-4">
-          {experience.map((item) => (
+          {experience.map((item: any) => (
             <div
               key={item._id}
               className="border rounded-xl p-4"

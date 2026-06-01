@@ -195,11 +195,7 @@ export default function ProfilePage() {
         }
       />
 
-      <SkillsSection
-        userSkills={
-          profile?.skills || []
-        }
-      />
+      <SkillsSection />
     </div>
   );
 }

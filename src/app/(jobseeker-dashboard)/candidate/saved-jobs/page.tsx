@@ -47,7 +47,7 @@ export default function SavedJobsPage() {
         </p>
       </div>
 
-      {jobs.map((job) => (
+      {jobs.map((job: any) => (
         <SavedJobCard
           key={job._id}
           job={job}
