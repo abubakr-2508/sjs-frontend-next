@@ -26,11 +26,11 @@ const eslintConfig = defineConfig([
       // of the 13-issue audit. Will be properly typed during issues-fix.
       "@typescript-eslint/no-explicit-any": "warn",
 
-      // Pre-existing pattern in profile / settings pages: calling
-      // setState inside useEffect to mirror query data into form state.
-      // Real fix is to use `defaultValues` + RHF reset or derive form
-      // state, but that's a refactor for the issues-fix pass.
-      "react-hooks/set-state-in-effect": "warn",
+      // ~~Pre-existing pattern in profile / settings pages.~~ Resolved
+      // during Phase B.1 issue 0a: split each affected page into outer
+      // (loading guard) + inner (form with state initialized from props
+      // directly). Rule is back to "error" so the pattern can't regress.
+      "react-hooks/set-state-in-effect": "error",
     },
   },
 ]);

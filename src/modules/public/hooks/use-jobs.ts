@@ -1,9 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchJobs } from "@/lib/api/jobs";
 
-export function useJobs() {
+import {
+  fetchJobs,
+  type JobsFilters,
+} from "@/lib/api/jobs";
+
+export function useJobs(
+  filters: JobsFilters = {}
+) {
   return useQuery({
-    queryKey: ["jobs"],
-    queryFn: fetchJobs,
+    // Include filters in the queryKey so React Query caches each filter
+    // combination independently and refetches when filters change.
+    queryKey: ["jobs", filters],
+    queryFn: () => fetchJobs(filters),
   });
 }

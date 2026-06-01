@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import {
   useEmployerProfile,
   useUpdateEmployerProfile,
@@ -8,167 +9,139 @@ import {
 } from "@/modules/employer/hooks/use-employer";
 import { Button } from "@/components/ui/button";
 
+/**
+ * Outer component handles the loading state. The inner
+ * `EmployerProfileForm` receives `profile` as a prop and initializes
+ * its state directly — no useEffect+setState pattern.
+ */
 export default function EmployerProfilePage() {
-  const { data } =
+  const { data, isLoading } =
     useEmployerProfile();
 
+  const profile = data?.data;
+
+  if (isLoading) {
+    return (
+      <div className="p-8">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="p-8">
+        Profile not found.
+      </div>
+    );
+  }
+
+  return (
+    <EmployerProfileForm
+      key={profile._id}
+      profile={profile}
+    />
+  );
+}
+
+function EmployerProfileForm({
+  profile,
+}: {
+  profile: any;
+}) {
   const { data: industriesData } =
     useIndustries();
 
   const updateMutation =
     useUpdateEmployerProfile();
 
-  const profile =
-    data?.data;
+  const [form, setForm] = useState({
+    name: profile.name || "",
+    email: profile.email || "",
+    mobile: profile.mobile || "",
 
-  const [form, setForm] =
-    useState<any>(null);
+    companyName:
+      profile.companyName || "",
+    companyWebsite:
+      profile.companyWebsite || "",
+    companyDescription:
+      profile.companyDescription || "",
+    companyType:
+      profile.companyType || "",
+    organizationSize:
+      profile.organizationSize || "",
+    establishmentYear:
+      profile.establishmentYear || "",
+    industry:
+      profile.industry?._id || "",
 
-  useEffect(() => {
-    if (profile) {
-      setForm({
-        name:
-          profile.name || "",
-        email:
-          profile.email || "",
-        mobile:
-          profile.mobile || "",
+    contactPerson: {
+      name:
+        profile.contactPerson?.name ||
+        "",
+      designation:
+        profile.contactPerson
+          ?.designation || "",
+      email:
+        profile.contactPerson?.email ||
+        "",
+      phone:
+        profile.contactPerson?.phone ||
+        "",
+      whatsapp:
+        profile.contactPerson
+          ?.whatsapp || "",
+      linkedinProfile:
+        profile.contactPerson
+          ?.linkedinProfile || "",
+    },
 
-        companyName:
-          profile.companyName || "",
-        companyWebsite:
-          profile.companyWebsite || "",
-        companyDescription:
-          profile.companyDescription ||
-          "",
-        companyType:
-          profile.companyType || "",
-        organizationSize:
-          profile.organizationSize ||
-          "",
-        establishmentYear:
-          profile.establishmentYear ||
-          "",
-        industry:
-          profile.industry?._id ||
-          "",
+    companyAddress: {
+      addressLine1:
+        profile.companyAddress
+          ?.addressLine1 || "",
+      addressLine2:
+        profile.companyAddress
+          ?.addressLine2 || "",
+      city:
+        profile.companyAddress?.city ||
+        "",
+      state:
+        profile.companyAddress?.state ||
+        "",
+      country:
+        profile.companyAddress
+          ?.country || "",
+      pincode:
+        profile.companyAddress
+          ?.pincode || "",
+    },
 
-        contactPerson:
-          {
-            name:
-              profile
-                .contactPerson
-                ?.name || "",
-            designation:
-              profile
-                .contactPerson
-                ?.designation ||
-              "",
-            email:
-              profile
-                .contactPerson
-                ?.email || "",
-            phone:
-              profile
-                .contactPerson
-                ?.phone || "",
-            whatsapp:
-              profile
-                .contactPerson
-                ?.whatsapp ||
-              "",
-            linkedinProfile:
-              profile
-                .contactPerson
-                ?.linkedinProfile ||
-              "",
-          },
+    gstNumber: profile.gstNumber || "",
+    panNumber: profile.panNumber || "",
+    cinNumber: profile.cinNumber || "",
 
-        companyAddress:
-          {
-            addressLine1:
-              profile
-                .companyAddress
-                ?.addressLine1 ||
-              "",
-            addressLine2:
-              profile
-                .companyAddress
-                ?.addressLine2 ||
-              "",
-            city:
-              profile
-                .companyAddress
-                ?.city || "",
-            state:
-              profile
-                .companyAddress
-                ?.state || "",
-            country:
-              profile
-                .companyAddress
-                ?.country ||
-              "",
-            pincode:
-              profile
-                .companyAddress
-                ?.pincode ||
-              "",
-          },
-
-        gstNumber:
-          profile.gstNumber ||
-          "",
-        panNumber:
-          profile.panNumber ||
-          "",
-        cinNumber:
-          profile.cinNumber ||
-          "",
-
-        socialLinks:
-          {
-            linkedin:
-              profile
-                .socialLinks
-                ?.linkedin ||
-              "",
-            facebook:
-              profile
-                .socialLinks
-                ?.facebook ||
-              "",
-            twitter:
-              profile
-                .socialLinks
-                ?.twitter ||
-              "",
-            instagram:
-              profile
-                .socialLinks
-                ?.instagram ||
-              "",
-            github:
-              profile
-                .socialLinks
-                ?.github ||
-              "",
-            glassdoor:
-              profile
-                .socialLinks
-                ?.glassdoor ||
-              "",
-          },
-      });
-    }
-  }, [profile]);
-
-  if (!form)
-    return (
-      <div className="p-8">
-        Loading...
-      </div>
-    );
+    socialLinks: {
+      linkedin:
+        profile.socialLinks?.linkedin ||
+        "",
+      facebook:
+        profile.socialLinks?.facebook ||
+        "",
+      twitter:
+        profile.socialLinks?.twitter ||
+        "",
+      instagram:
+        profile.socialLinks
+          ?.instagram || "",
+      github:
+        profile.socialLinks?.github ||
+        "",
+      glassdoor:
+        profile.socialLinks
+          ?.glassdoor || "",
+    },
+  });
 
   function updateField(
     key: string,
@@ -212,15 +185,12 @@ export default function EmployerProfilePage() {
   }
 
   function getInitials() {
-    if (
-      form.companyName
-    ) {
+    if (form.companyName) {
       return form.companyName
         .split(" ")
         .slice(0, 2)
         .map(
-          (w: string) =>
-            w[0]
+          (w: string) => w[0]
         )
         .join("")
         .toUpperCase();
@@ -248,9 +218,7 @@ export default function EmployerProfilePage() {
 
         <div>
           <h2 className="text-xl font-bold">
-            {
-              form.companyName
-            }
+            {form.companyName}
           </h2>
 
           <p className="text-slate-500">
@@ -317,9 +285,7 @@ export default function EmployerProfilePage() {
 
         <input
           className="w-full border p-3 rounded-lg"
-          value={
-            form.companyName
-          }
+          value={form.companyName}
           placeholder="Company Name"
           onChange={(e) =>
             updateField(
@@ -331,9 +297,7 @@ export default function EmployerProfilePage() {
 
         <input
           className="w-full border p-3 rounded-lg"
-          value={
-            form.companyWebsite
-          }
+          value={form.companyWebsite}
           placeholder="Website"
           onChange={(e) =>
             updateField(
@@ -346,9 +310,7 @@ export default function EmployerProfilePage() {
         <textarea
           className="w-full border p-3 rounded-lg"
           rows={6}
-          value={
-            form.companyDescription
-          }
+          value={form.companyDescription}
           placeholder="Description"
           onChange={(e) =>
             updateField(
@@ -360,9 +322,7 @@ export default function EmployerProfilePage() {
 
         <select
           className="w-full border p-3 rounded-lg"
-          value={
-            form.industry
-          }
+          value={form.industry}
           onChange={(e) =>
             updateField(
               "industry",
@@ -378,9 +338,7 @@ export default function EmployerProfilePage() {
             (item: any) => (
               <option
                 key={item._id}
-                value={
-                  item._id
-                }
+                value={item._id}
               >
                 {item.name}
               </option>
@@ -390,9 +348,7 @@ export default function EmployerProfilePage() {
 
         <input
           className="w-full border p-3 rounded-lg"
-          value={
-            form.companyType
-          }
+          value={form.companyType}
           placeholder="Company Type"
           onChange={(e) =>
             updateField(
@@ -404,9 +360,7 @@ export default function EmployerProfilePage() {
 
         <input
           className="w-full border p-3 rounded-lg"
-          value={
-            form.organizationSize
-          }
+          value={form.organizationSize}
           placeholder="Organization Size"
           onChange={(e) =>
             updateField(
@@ -418,9 +372,7 @@ export default function EmployerProfilePage() {
 
         <input
           className="w-full border p-3 rounded-lg"
-          value={
-            form.establishmentYear
-          }
+          value={form.establishmentYear}
           placeholder="Establishment Year"
           onChange={(e) =>
             updateField(
@@ -439,8 +391,7 @@ export default function EmployerProfilePage() {
         <input
           className="w-full border p-3 rounded-lg"
           value={
-            form.contactPerson
-              .name
+            form.contactPerson.name
           }
           placeholder="Contact Name"
           onChange={(e) =>
@@ -487,8 +438,7 @@ export default function EmployerProfilePage() {
         <input
           className="w-full border p-3 rounded-lg"
           value={
-            form.companyAddress
-              .city
+            form.companyAddress.city
           }
           placeholder="City"
           onChange={(e) =>
@@ -508,9 +458,7 @@ export default function EmployerProfilePage() {
 
         <input
           className="w-full border p-3 rounded-lg"
-          value={
-            form.gstNumber
-          }
+          value={form.gstNumber}
           placeholder="GST"
           onChange={(e) =>
             updateField(
@@ -522,9 +470,7 @@ export default function EmployerProfilePage() {
 
         <input
           className="w-full border p-3 rounded-lg"
-          value={
-            form.panNumber
-          }
+          value={form.panNumber}
           placeholder="PAN"
           onChange={(e) =>
             updateField(
@@ -537,8 +483,7 @@ export default function EmployerProfilePage() {
         <input
           className="w-full border p-3 rounded-lg"
           value={
-            form.socialLinks
-              .linkedin
+            form.socialLinks.linkedin
           }
           placeholder="LinkedIn"
           onChange={(e) =>
@@ -553,9 +498,7 @@ export default function EmployerProfilePage() {
 
       <Button
         size="lg"
-        onClick={
-          saveProfile
-        }
+        onClick={saveProfile}
       >
         Save Profile
       </Button>

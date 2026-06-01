@@ -28,7 +28,7 @@ function clearAndRedirectToLogin(request: NextRequest, from?: string) {
   return response;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("access_token")?.value;
 

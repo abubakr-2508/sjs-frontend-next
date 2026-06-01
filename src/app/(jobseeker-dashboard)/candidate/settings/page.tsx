@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -9,107 +9,99 @@ import {
   useUpdateNotificationSettings,
 } from "@/modules/candidate/hooks/use-notifications";
 
+/**
+ * Outer component handles the loading state. The inner `SettingsForm`
+ * receives `data` as a prop and initializes its state directly — no
+ * useEffect+setState pattern.
+ *
+ * Cache refresh after save is handled by `useUpdateNotificationSettings`
+ * internally (it invalidates the `["notification-settings"]` query key on
+ * success), so we no longer need to call `refetch()` manually.
+ */
 export default function SettingsPage() {
-  const { data, refetch } =
+  const { data, isLoading } =
     useNotificationSettings();
 
+  if (isLoading) {
+    return (
+      <div className="p-8">
+        Loading settings...
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="p-8">
+        Settings not available.
+      </div>
+    );
+  }
+
+  return <SettingsForm data={data} />;
+}
+
+function SettingsForm({
+  data,
+}: {
+  data: any;
+}) {
   const updateMutation =
     useUpdateNotificationSettings();
 
-  const [email, setEmail] =
-    useState(true);
+  const [email, setEmail] = useState(
+    data.notifications?.email ?? true
+  );
 
-  const [push, setPush] =
-    useState(true);
+  const [push, setPush] = useState(
+    data.notifications?.push ?? true
+  );
 
-  const [sms, setSms] =
-    useState(true);
+  const [sms, setSms] = useState(
+    data.notifications?.sms ?? true
+  );
 
   const [dndEnabled, setDndEnabled] =
-    useState(false);
+    useState(
+      data.dnd?.enabled ?? false
+    );
 
   const [dndEmail, setDndEmail] =
-    useState(true);
+    useState(
+      data.dnd?.channels?.email ?? true
+    );
 
-  const [dndPush, setDndPush] =
-    useState(true);
+  const [dndPush, setDndPush] = useState(
+    data.dnd?.channels?.push ?? true
+  );
 
-  const [dndSms, setDndSms] =
-    useState(true);
+  const [dndSms, setDndSms] = useState(
+    data.dnd?.channels?.sms ?? true
+  );
 
   const [durationDays, setDurationDays] =
-    useState(1);
-
-  useEffect(() => {
-    if (!data) return;
-
-    setEmail(
-      data.notifications?.email ??
-        true
+    useState(
+      data.dnd?.durationDays ?? 1
     );
-
-    setPush(
-      data.notifications?.push ??
-        true
-    );
-
-    setSms(
-      data.notifications?.sms ??
-        true
-    );
-
-    setDndEnabled(
-      data.dnd?.enabled ??
-        false
-    );
-
-    setDndEmail(
-      data.dnd?.channels
-        ?.email ?? true
-    );
-
-    setDndPush(
-      data.dnd?.channels
-        ?.push ?? true
-    );
-
-    setDndSms(
-      data.dnd?.channels
-        ?.sms ?? true
-    );
-
-    setDurationDays(
-      data.dnd
-        ?.durationDays ?? 1
-    );
-  }, [data]);
 
   async function handleSave() {
     try {
-      await updateMutation.mutateAsync(
-        {
-          notificationSettings:
-            {
-              email,
-              push,
-              sms,
-            },
-          dnd: {
-            enabled:
-              dndEnabled,
-            durationDays,
-            channels: {
-              email:
-                dndEmail,
-              push:
-                dndPush,
-              sms: dndSms,
-            },
+      await updateMutation.mutateAsync({
+        notificationSettings: {
+          email,
+          push,
+          sms,
+        },
+        dnd: {
+          enabled: dndEnabled,
+          durationDays,
+          channels: {
+            email: dndEmail,
+            push: dndPush,
+            sms: dndSms,
           },
-        }
-      );
-
-      await refetch();
+        },
+      });
 
       alert(
         "Settings updated successfully"
@@ -181,9 +173,7 @@ export default function SettingsPage() {
           <label className="flex gap-3 items-center">
             <input
               type="checkbox"
-              checked={
-                dndEnabled
-              }
+              checked={dndEnabled}
               onChange={(e) =>
                 setDndEnabled(
                   e.target.checked
@@ -201,9 +191,7 @@ export default function SettingsPage() {
             <input
               type="number"
               min={1}
-              value={
-                durationDays
-              }
+              value={durationDays}
               onChange={(e) =>
                 setDurationDays(
                   Number(
@@ -218,9 +206,7 @@ export default function SettingsPage() {
           <label className="flex gap-3 items-center">
             <input
               type="checkbox"
-              checked={
-                dndEmail
-              }
+              checked={dndEmail}
               onChange={(e) =>
                 setDndEmail(
                   e.target.checked
@@ -233,9 +219,7 @@ export default function SettingsPage() {
           <label className="flex gap-3 items-center">
             <input
               type="checkbox"
-              checked={
-                dndPush
-              }
+              checked={dndPush}
               onChange={(e) =>
                 setDndPush(
                   e.target.checked
@@ -248,9 +232,7 @@ export default function SettingsPage() {
           <label className="flex gap-3 items-center">
             <input
               type="checkbox"
-              checked={
-                dndSms
-              }
+              checked={dndSms}
               onChange={(e) =>
                 setDndSms(
                   e.target.checked
